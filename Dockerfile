@@ -6,8 +6,7 @@
 # docker run -p 5232:5232 --restart unless-stopped --name decsync-caldav -v <decsync-data-directory>:/decsync-data -it decsync-caldav
 #
 
-
-FROM tomsquest/docker-radicale
+FROM docker.io/tomsquest/docker-radicale:3.4.1.0
 
 # Install dependencies:
 RUN apk add --no-cache libstdc++ libc6-compat
@@ -21,6 +20,8 @@ RUN python3 -m pip install --break-system-packages git+https://github.com/mab122
 #
 # RUN python3 -m pip install --break-system-packages radicale_storage_decsync
 
+# Allow htpasswd bcrypt auth
+RUN python3 -m pip install --break-system-packages bcrypt
 
 # Create the directory to synchronize:
 RUN mkdir /decsync-data
