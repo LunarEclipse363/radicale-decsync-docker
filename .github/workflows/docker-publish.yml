@@ -15,7 +15,6 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -58,6 +57,11 @@ jobs:
         id: meta
         uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
         with:
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=schedule,pattern={{ date 'YYYY-MM-DDThh-mm-ssZ' }},prefix=nightly-
+            type=ref,event=tag
+            type=sha
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       # Build and push Docker image with Buildx (don't push on PR)
